@@ -19,6 +19,8 @@ ClientsDialer.prototype.init = function() {
 };
 
 ClientsDialer.prototype.registerIO = function(socket) {
+    var scope = this;
+    
     // user
     socket.user = {
         id: crypto.randomBytes(20).toString('hex')
@@ -35,10 +37,10 @@ ClientsDialer.prototype.registerIO = function(socket) {
     socket.on('getUsersList', function(){
 
         // if we ask for user list, it means we are connected to peer
-        this.users.push(socket.user.id);
+        scope.users.push(socket.user.id);
 
         // emit users list to everybody
-        io.emit('getUsersList', this.users);
+        scope.io.emit('getUsersList', scope.users);
     });
 
     // disconnect
@@ -46,14 +48,14 @@ ClientsDialer.prototype.registerIO = function(socket) {
 
         // remove user from list
         var i = 0;
-        for(i; i < this.users.length; i++){
-            if(this.users[i] == socket.user.id){
-                this.users.splice(i, 1);
+        for(i; i < scope.users.length; i++){
+            if(scope.users[i] == socket.user.id){
+                scope.users.splice(i, 1);
             }
         }
 
         // emit users list to everybody
-        io.emit('getUsersList', this.users);
+        scope.io.emit('getUsersList', scope.users);
     });
 };
 

@@ -7,6 +7,7 @@ var socketIo = require('socket.io');
 function ClientsDialer(server) {
     this.server = server;
     this.users = [];
+    this.sockets = [];
     this.io = socketIo(server);
     
     this.init();
@@ -25,6 +26,8 @@ ClientsDialer.prototype.registerIO = function(socket) {
     socket.user = {
         id: crypto.randomBytes(20).toString('hex')
     };
+    
+    scope.sockets[socket.user.id] = socket;
 
     // get user id
     socket.on('getUserId', function(){
@@ -53,9 +56,17 @@ ClientsDialer.prototype.registerIO = function(socket) {
                 scope.users.splice(i, 1);
             }
         }
+        
+        delete scope.sockets[socket.user.id];
 
         // emit users list to everybody
         scope.io.emit('getUsersList', scope.users);
+    });
+    
+    socket.on('peerToPeer', function(data) {
+        console.log(data.targetId);
+        console.log(scope.users);
+        scope.sockets[data.targetId] && scope.sockets[data.targetId].emit('peerToPeer', data);
     });
 };
 

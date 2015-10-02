@@ -64,8 +64,8 @@ ClientsDialer.prototype.registerIO = function(socket) {
     });
     
     socket.on('peerToPeer', function(data) {
-        console.log(data.targetId);
-        console.log(scope.users);
+        //console.log(data.targetId);
+        //console.log(scope.users);
         scope.sockets[data.targetId] && scope.sockets[data.targetId].emit('peerToPeer', data);
     });
 };

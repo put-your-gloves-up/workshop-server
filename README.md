@@ -1,4 +1,7 @@
-# workshop-server
+[splash]: http://img15.hostingpics.net/pics/783169putyourglovesupserver.jpg
+![Alt text][splash]
+
+# Put your gloves up (SERVER)
 
 ## How to install ?
 
@@ -13,3 +16,5 @@ Also, duplicate config_sample.json into config.json and modify the port number a
 Just use this command
 
     node main.js
+
+Your server is now accessible from the IP of the device you are using on the port specified in config.json ! Be sure to test it with [_Put your gloves up Client_](https://github.com/put-your-gloves-up/workshop-client) !
